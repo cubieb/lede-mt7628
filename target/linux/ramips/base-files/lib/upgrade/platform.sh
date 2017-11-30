@@ -93,6 +93,7 @@ platform_check_image() {
 	mr-102n|\
 	mt7628|\
 	dcomtek-mt7628-epa|\
+	cubieb-mt7628-mt7612e|\
 	mzk-750dhp|\
 	mzk-dp150n|\
 	mzk-ex300np|\

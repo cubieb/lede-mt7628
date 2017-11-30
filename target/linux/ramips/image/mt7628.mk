@@ -2,6 +2,15 @@
 # MT7628 Profiles
 #
 
+define Device/cubieb-mt7628-mt7612e
+  DTS := CUBIEB-MT7628-MT7612E
+  BLOCKSIZE := 64k
+  IMAGE_SIZE := $(ralink_default_fw_size_16M)
+  DEVICE_TITLE := CUBIEB MT7628 MT7612E
+  DEVICE_PACKAGES := kmod-usb2 kmod-usb-ohci kmod-usb-ledtrig-usbport
+endef
+TARGET_DEVICES += cubieb-mt7628-mt7612e
+
 define Device/dcomtek-mt7628-epa
   DTS := DcomTek-EPA
   BLOCKSIZE := 64k

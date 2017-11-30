@@ -325,6 +325,10 @@ ramips_board_detect() {
 	*"DcomTek MT7628 EPA"*)
 		name="dcomtek-mt7628-epa"
 		;;
+	*"Cubieb mt7628 mt7612e"*)
+		name="cubieb-mt7628-mt7612e"
+		;;
+		
 	*"MT7688 evaluation"*)
 		name="mt7688"
 		;;

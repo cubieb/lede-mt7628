@@ -86,6 +86,7 @@ ramips_setup_interfaces()
 	mt7621|\
 	mt7628|\
 	dcomtek-mt7628-epa|\
+	cubieb-mt7628-mt7612e|\
 	mzk-750dhp|\
 	mzk-w300nh2|\
 	nixcore|\
