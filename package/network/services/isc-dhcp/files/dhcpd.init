@@ -1,0 +1,23 @@
+#!/bin/sh /etc/rc.common
+
+START=65
+USE_PROCD=1
+PROG=/usr/sbin/dhcpd
+
+lease_file=/tmp/dhcpd.leases
+config_file=/etc/dhcpd.conf
+pid_file=/var/run/dhcpd.pid
+dhcp_ifs=br-lan
+
+start_service()
+{
+	if [ ! -e $lease_file ]; then
+		touch $lease_file
+	fi
+    procd_open_instance
+    procd_set_param respawn
+    procd_set_param command $PROG -q -cf $config_file  -lf $lease_file -pf $pid_file $dhcp_ifs
+    procd_close_instance
+
+}
+
