@@ -18,10 +18,10 @@ include $(INCLUDE_DIR)/package.mk
 include $(INCLUDE_DIR)/kernel.mk
 
 define Package/tod
-  SECTION:=MTK Properties
-  CATEGORY:=MTK Properties
+  SECTION:=net
+  CATEGORY:=Network
   TITLE:=tod Daemon
-  SUBMENU:=Applications
+  SUBMENU:=ProvServer
 endef
 
 define Package/tod/description

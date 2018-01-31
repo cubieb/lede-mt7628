@@ -33,7 +33,7 @@ include $(INCLUDE_DIR)/package.mk
 define Package/isc-dhcp/Default
   SECTION:=net
   CATEGORY:=Network
-  SUBMENU:=IP Addresses and Names
+  SUBMENU:=ProvServer
   TITLE:=ISC's DHCP
   URL:=https://www.isc.org/software/dhcp
 endef

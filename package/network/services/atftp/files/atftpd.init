@@ -5,13 +5,15 @@
 START=98
 STOP=15
 USE_PROCD=1
-ATFTPD_BIN="/usr/sbin/atftpd --user root --daemon /tmp"
+ATFTPD_BIN="/usr/sbin/atftpd --user root --daemon /tmp/upload/"
 
 start_service()
 {
-	[ -f /tmp/bob_cm.cfg ] || {
-		cp -f /etc/bob_cm.cfg /tmp/bob_cm.cfg
-		chmod 777 /tmp/bob_cm.cfg
+	touch /etc/keyfile
+	[ -f /tmp/upload/bob_cm.cfg ] || {
+		mkdir -p /tmp/upload/
+		cp -f /etc/bob_cm.cfg /tmp/upload/bob_cm.cfg
+		chmod 777 -R /tmp/upload/
 	}
 	procd_open_instance
 	procd_set_param respawn

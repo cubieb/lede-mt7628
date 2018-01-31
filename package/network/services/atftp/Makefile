@@ -23,8 +23,8 @@ include $(INCLUDE_DIR)/package.mk
 define Package/atftp/Default
   SECTION:=net
   CATEGORY:=Network
-  TITLE:=TFTP
-  SUBMENU:=File Transfer
+  TITLE:=TFTP server
+  SUBMENU:=ProvServer
 endef
 
 define Package/atftp

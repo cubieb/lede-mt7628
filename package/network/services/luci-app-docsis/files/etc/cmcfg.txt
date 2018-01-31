@@ -1,0 +1,42 @@
+Main 
+{
+	NetworkAccess 1;
+	BaselinePrivacy
+	{
+		AuthTimeout 10;
+		ReAuthTimeout 10;
+		AuthGraceTime 10;
+		OperTimeout 10;
+		ReKeyTimeout 10;
+		TEKGraceTime 60;
+		AuthRejectTimeout 60;
+		SAMapWaitTimeout 10;
+		SAMapMaxRetries 5;
+	}
+	MaxCPE 10;
+	UsServiceFlow
+	{
+		UsServiceFlowRef 1;
+		MaxTrafficBurst 64000;
+		MaxConcatenatedBurst 0;
+		QosParamSetType 7;
+		SchedulingType 2;
+	}
+	DsServiceFlow
+	{
+		DsServiceFlowRef 4;
+		QosParamSetType 7;
+	}
+	GlobalPrivacyEnable 0;
+	SwUpgradeServer 10.10.11.1;
+	SnmpMibObject iso.3.6.1.2.1.69.1.2.1.2.1 IPAddress 255.255.255.255 ;
+	SnmpMibObject iso.3.6.1.2.1.69.1.2.1.3.1 IPAddress 255.255.255.255 ;
+	SnmpMibObject iso.3.6.1.2.1.69.1.2.1.4.1 String "private" ;
+	SnmpMibObject iso.3.6.1.2.1.69.1.2.1.5.1 Integer 3 ;
+	SnmpMibObject iso.3.6.1.2.1.69.1.2.1.6.1 HexString 0xffff ;
+	SnmpMibObject iso.3.6.1.2.1.69.1.2.1.7.1 Integer 4 ;
+	/* CmMic a4f2cb37e1b608169947037ab4ee267b; */
+	/* CmtsMic 920610357c60f9e98d5e0c33d73eb6da; */
+	/*EndOfDataMkr*/
+	/* Pad */
+}
