@@ -1,0 +1,82 @@
+--- a/drivers/mtd/devices/m25p80.c
++++ b/drivers/mtd/devices/m25p80.c
+@@ -260,7 +260,15 @@ static int m25p_probe(struct spi_device
+ static int m25p_remove(struct spi_device *spi)
+ {
+ 	struct m25p	*flash = spi_get_drvdata(spi);
+-
++	if ((&flash->spi_nor)->addr_width > 3) {
++	printk(KERN_INFO "m25p80: exit 4-byte address mode\n");
++	flash->command[0] = SPINOR_OP_EX4B;  // exit 4-byte address mode: 0xe9
++	spi_write(flash->spi, flash->command, 1);
++	flash->command[0] = 0x66;  // enable reset
++	spi_write(flash->spi, flash->command, 1);
++	flash->command[0] = 0x99;  // reset
++	spi_write(flash->spi, flash->command, 1);
++	}
+ 	/* Clean up MTD stuff. */
+ 	return mtd_device_unregister(&flash->spi_nor.mtd);
+ }
+@@ -328,7 +336,8 @@ static struct spi_driver m25p80_driver =
+ 	.id_table	= m25p_ids,
+ 	.probe	= m25p_probe,
+ 	.remove	= m25p_remove,
+-
++	.shutdown = m25p_remove, // add shutdown method to reset spi flash
++	
+ 	/* REVISIT: many of these chips have deep power-down modes, which
+ 	 * should clearly be entered on suspend() to minimize power use.
+ 	 * And also when they're otherwise idle...
+--- a/drivers/mtd/spi-nor/spi-nor.c
++++ b/drivers/mtd/spi-nor/spi-nor.c
+@@ -463,7 +463,8 @@ static int stm_lock(struct spi_nor *nor,
+ 	u8 status_old, status_new;
+ 	u8 mask = SR_BP2 | SR_BP1 | SR_BP0;
+ 	u8 shift = ffs(mask) - 1, pow, val;
+-
++    int ret;
++	
+ 	status_old = read_sr(nor);
+ 
+ 	/* SPI NOR always locks to the end */
+@@ -499,7 +500,11 @@ static int stm_lock(struct spi_nor *nor,
+ 		return -EINVAL;
+ 
+ 	write_enable(nor);
+-	return write_sr(nor, status_new);
++	//return write_sr(nor, status_new);
++	ret = write_sr(nor, status_new);
++	if(ret)
++		return ret;
++	return spi_nor_wait_till_ready(nor);
+ }
+ 
+ /*
+@@ -513,6 +518,7 @@ static int stm_unlock(struct spi_nor *no
+ 	uint8_t status_old, status_new;
+ 	u8 mask = SR_BP2 | SR_BP1 | SR_BP0;
+ 	u8 shift = ffs(mask) - 1, pow, val;
++	int ret;
+ 
+ 	status_old = read_sr(nor);
+ 
+@@ -547,7 +553,10 @@ static int stm_unlock(struct spi_nor *no
+ 		return -EINVAL;
+ 
+ 	write_enable(nor);
+-	return write_sr(nor, status_new);
++	ret = write_sr(nor, status_new);
++	if (ret)
++		return ret;
++	return spi_nor_wait_till_ready(nor);
+ }
+ 
+ /*
+@@ -1227,6 +1236,7 @@ int spi_nor_scan(struct spi_nor *nor, co
+ 	    info->flags & SPI_NOR_HAS_LOCK) {
+ 		write_enable(nor);
+ 		write_sr(nor, 0);
++		spi_nor_wait_till_ready(nor);
+ 	}
+ 
+ 	if (!mtd->name)
