@@ -381,7 +381,7 @@ TARGET_DEVICES += zte-q7
 
 define Device/youku-yk1
   DTS := YOUKU-YK1
-  IMAGE_SIZE := $(ralink_default_fw_size_16M)
+  IMAGE_SIZE := $(ralink_default_fw_size_32M)
   DEVICE_TITLE := YOUKU YK1
 endef
 TARGET_DEVICES += youku-yk1
